@@ -1,26 +1,27 @@
-/**
-  * A generic kernel KFIFO implementation
-  *
-  * Copyright (C) 2018-2019 Leven.
-  * Copyright (C) 2013 Stefani Seibold <stefani@seibold.net>
-  *
-  * This program is free software; you can redistribute it and/or modify
-  * it under the terms of the GNU General Public License as published by
-  * the Free Software Foundation; either version 2 of the License, or
-  * (at your option) any later version.
-  *
-  * This program is distributed in the hope that it will be useful,
-  * but WITHOUT ANY WARRANTY; without even the implied warranty of
-  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-  * GNU General Public License for more details.
-  *
-  * You should have received a copy of the GNU General Public License
-  * along with this program; if not, write to the Free Software
-  * Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
-  */
+/*
+ * A generic kernel KFIFO implementation
+ *
+ * Copyright (C) 2018-2019 Leven.
+ * Copyright (C) 2013 Stefani Seibold <stefani@seibold.net>
+ *
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 2 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
+ */
 
 /* Includes ------------------------------------------------------------------*/
 #include <string.h>
+
 #include "fifo.h"
 #include "misc/util.h"
 
@@ -37,13 +38,13 @@ static void _fifo_copy_out(const struct __fifo *fifo, uint8_t *dst, uint32_t len
 
 /* Public functions ----------------------------------------------------------*/
 /**
-  * @brief  预分配缓冲区静态队列初始化
-  * @param  fifo：队列指针
-  *         data_buff：数据域指针
-  *         size：队列大小
-  *         esize: 数据元素大小
-  * @retval None.
-  */
+ * @brief  预分配缓冲区静态队列初始化
+ * @param  fifo：队列指针
+ *         data_buff：数据域指针
+ *         size：队列大小
+ *         esize: 数据元素大小
+ * @retval None.
+ */
 void __fifo_init(struct __fifo *fifo, uint8_t *data_buf, uint32_t size, size_t esize)
 {
     size /= esize;    /* 计算数据元素空间大小下的队列总大小 */
@@ -56,12 +57,12 @@ void __fifo_init(struct __fifo *fifo, uint8_t *data_buf, uint32_t size, size_t e
 }
 
 /**
-  * @brief  向队列中入队数据
-  * @param  fifo：队列指针
-  *         buffer：入队的数据缓冲区指针
-  *         len：   入队的数据长度
-  * @retval 入队字节数
-  */
+ * @brief  向队列中入队数据
+ * @param  fifo：队列指针
+ *         buffer：入队的数据缓冲区指针
+ *         len：   入队的数据长度
+ * @retval 入队字节数
+ */
 uint32_t __fifo_in(struct __fifo *fifo, const uint8_t *buffer, uint32_t len)
 {
     uint32_t tmp_len;
@@ -82,12 +83,12 @@ uint32_t __fifo_in(struct __fifo *fifo, const uint8_t *buffer, uint32_t len)
 }
 
 /**
-  * @brief  从队列中出队数据
-  * @param  fifo：队列指针
-  *         buffer：出队的数据缓冲区指针
-  *         len：   出队的数据长度
-  * @retval 出队字节数
-  */
+ * @brief  从队列中出队数据
+ * @param  fifo：队列指针
+ *         buffer：出队的数据缓冲区指针
+ *         len：   出队的数据长度
+ * @retval 出队字节数
+ */
 uint32_t __fifo_out(struct __fifo *fifo, uint8_t *buffer, uint32_t len)
 {
     uint32_t tmp_len;

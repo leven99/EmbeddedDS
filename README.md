@@ -1,4 +1,4 @@
-## EmbeddedBuffer - 适用于嵌入式应用的各类缓冲实现
+## EmbeddedDS - 适用于嵌入式的数据结构实现
 
 ###  FIFO
 
