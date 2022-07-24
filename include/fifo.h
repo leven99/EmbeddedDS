@@ -31,11 +31,11 @@
 
 /* Public typedef ------------------------------------------------------------*/
 struct __fifo {
-    uint32_t    in;       /* 入队index索引，in  必须为无符号数据类型 */
-    uint32_t    out;      /* 出队index索引，out 必须为无符号数据类型 */
-    uint32_t    mask;     /* 队列总大小，mask 必须为2的幂次方 */
-    uint32_t    esize;    /* 数据域中数据元素的大小 */
-    uint8_t    *data;     /* 数据域指针 */
+    uint32_t    in;       /* 入队索引，in  必须为无符号数据类型 */
+    uint32_t    out;      /* 出队索引，out 必须为无符号数据类型 */
+    uint32_t    mask;     /* 队列总大小，mask 必须为 2 的幂次方 */
+    uint32_t    esize;    /* 数据元素的大小 */
+    uint8_t    *data;     /* 数据指针 */
 };
 
 /* Public define -------------------------------------------------------------*/
@@ -47,7 +47,7 @@ struct __fifo {
  */
 #define fifo_init(fifo, buffer, size) \
 ( \
-	__fifo_init(fifo, buffer, size, sizeof(*buffer)) \
+    __fifo_init(fifo, buffer, size, sizeof(*buffer)) \
 )
 
 /**
@@ -135,10 +135,6 @@ static inline uint32_t fifo_len(struct __fifo *fifo)
  */
 static inline uint32_t fifo_avail(struct __fifo *fifo)
 {
-    /*
-     * 未使用数据元素长度(len)29 = 队列总长度(size)32 -
-     *                             已使用数据元素长度(len)13
-     */
     return (fifo_size(fifo) - fifo_len(fifo));
 }
 
@@ -149,7 +145,6 @@ static inline uint32_t fifo_avail(struct __fifo *fifo)
  */
 static inline bool fifo_is_empty(struct __fifo *fifo)
 {
-    /* 当入队偏移量[in]与出队偏移量[out]相等时，队列为空 */
     return (fifo->in == fifo->out);
 }
 

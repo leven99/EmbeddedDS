@@ -51,9 +51,9 @@ void __fifo_init(struct __fifo *fifo, uint8_t *data_buf, uint32_t size, size_t e
 
     fifo->in    = 0U;
     fifo->out   = 0U;
-    fifo->mask  = size - 1U;    /* 队列总大小 */
-    fifo->data  = data_buf;     /* 数据域指针 */
-    fifo->esize = esize;        /* 数据域中数据元素的大小 */
+    fifo->mask  = size - 1U;
+    fifo->esize = esize;
+	fifo->data  = data_buf;
 }
 
 /**
@@ -68,7 +68,7 @@ uint32_t __fifo_in(struct __fifo *fifo, const uint8_t *buffer, uint32_t len)
     uint32_t tmp_len;
 
     /* 计算队列中剩余可用空间的大小（总空间大小-已使用空间大小） */
-    tmp_len = (fifo->mask + 1) - (fifo->in - fifo->out);
+    tmp_len = (fifo->mask + 1U) - (fifo->in - fifo->out);
     if(len > tmp_len) {
         len = tmp_len;
     }
@@ -76,7 +76,7 @@ uint32_t __fifo_in(struct __fifo *fifo, const uint8_t *buffer, uint32_t len)
     /* 执行入队操作，将入队的数据缓冲区数据拷贝到队列中 */
     _fifo_copy_in(fifo, buffer, len, fifo->in);
 
-    /* 递增fifo-in，利用无符号数据类型的溢出特性，递增到最大值自动转换为0 */
+    /* 递增fifo-in，利用无符号数据类型的溢出特性环绕 */
     fifo->in += len;
 
     return len;
@@ -102,7 +102,7 @@ uint32_t __fifo_out(struct __fifo *fifo, uint8_t *buffer, uint32_t len)
     /* 执行出队操作，将队列中的数据拷贝到出队的数据缓冲区中 */
     _fifo_copy_out(fifo, buffer, len, fifo->out);
 
-    /* 递增fifo-out，利用无符号数据类型的溢出特性，递增到最大值自动转换为0 */
+    /* 递增fifo-out，利用无符号数据类型的溢出特性环绕 */
     fifo->out += len;
 
     return len;
@@ -117,8 +117,9 @@ static void _fifo_copy_in(const struct __fifo *fifo, const uint8_t *src, uint32_
 
     /* 计算队列中数据入队的起始位置in */
     off &= fifo->mask;
-    if (esize != 1) {
-        /* 数据域数据元素的数据类型非字节 (Byte esize = 1) */
+
+    /* 数据域数据元素的数据类型非字节 */
+    if (esize != 1U) {
         off  *= esize;
         size *= esize;
         len  *= esize;
@@ -160,14 +161,15 @@ static void _fifo_copy_in(const struct __fifo *fifo, const uint8_t *src, uint32_
 
 static void _fifo_copy_out(const struct __fifo *fifo, uint8_t *dst, uint32_t len, uint32_t off)
 {
-    uint32_t size  = fifo->mask + 1;
+    uint32_t size  = fifo->mask + 1U;
     uint32_t esize = fifo->esize;
     uint32_t tmp_len;
 
     /* 计算队列中数据出队的起始位置out */
     off &= fifo->mask;
-    if (esize != 1) {
-        /* 数据域数据元素的数据类型非字节 (Byte esize = 1) */
+
+    /* 数据元素的数据类型非字节 */
+    if (esize != 1U) {
         off  *= esize;
         size *= esize;
         len  *= esize;
