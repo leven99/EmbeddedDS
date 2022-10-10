@@ -33,7 +33,7 @@
 struct __fifo {
     uint32_t    in;       /* 入队索引，in  必须为无符号数据类型 */
     uint32_t    out;      /* 出队索引，out 必须为无符号数据类型 */
-    uint32_t    mask;     /* 队列总大小，mask 必须为 2 的幂次方 */
+    uint32_t    mask;     /* 队列大小，mask 必须为 2 的幂次方 */
     uint32_t    esize;    /* 数据元素的大小 */
     uint8_t    *data;     /* 数据指针 */
 };

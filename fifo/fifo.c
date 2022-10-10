@@ -41,13 +41,13 @@ static void _fifo_copy_out(const struct __fifo *fifo, uint8_t *dst, uint32_t len
  * @brief  预分配缓冲区静态队列初始化
  * @param  fifo：队列指针
  *         data_buff：数据域指针
- *         size：队列大小
+ *         size：数据域大小
  *         esize: 数据元素大小
  * @retval None.
  */
 void __fifo_init(struct __fifo *fifo, uint8_t *data_buf, uint32_t size, size_t esize)
 {
-    size /= esize;    /* 计算数据元素空间大小下的队列总大小 */
+    size /= esize;   /* 计算队列大小 */
 
     fifo->in    = 0U;
     fifo->out   = 0U;
@@ -59,7 +59,7 @@ void __fifo_init(struct __fifo *fifo, uint8_t *data_buf, uint32_t size, size_t e
 /**
  * @brief  向队列中入队数据
  * @param  fifo：队列指针
- *         buffer：入队的数据缓冲区指针
+ *         buffer：入队的数据指针
  *         len：   入队的数据长度
  * @retval 入队字节数
  */

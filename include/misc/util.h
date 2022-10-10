@@ -40,6 +40,19 @@ extern "C" {
 #define MIN3(a, b, c)   MIN(MIN(a, b), c)
 #define MAX3(a, b, c)   MAX(MAX(a, b), c)
 
+/**
+ * @brief 对值@x的@bit位进行清零
+ */
+#define CLEAR_BIT(x, bit)   (x &= ~(1 << bit))
+/**
+ * @brief 对值@x的@bit位进行置零
+ */
+#define SET_BIT(x, bit)   (x |= (1 << bit))
+/**
+ * @brief 获取值@x的@bit位
+ */
+#define GET_BIT(x, bit)   ((x & (1 << bit)) >> bit)
+
 #if defined(__cplusplus)
 }
 #endif
